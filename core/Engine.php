@@ -1,9 +1,10 @@
 <?php
+
 /**
  * IPP - PHP Project Core
  * @author Radim Kocman
  * @author Zbyněk Křivka
- * 
+ * ---
  * DO NOT MODIFY THIS FILE!
  */
 
@@ -17,19 +18,18 @@ use Throwable;
 
 /**
  * Engine guides the execution of the script and handles IPP exceptions.
- * 
+ * ---
  * Notes:
- * - class \IPP\Student\Interpreter is required and it has to be a subclass of \IPP\Core\AbstractInterpreter
- * - class \IPP\Student\Settings is optional and if it exists, it has to be a subclass of \IPP\Core\Settings
- * - method execute() of \IPP\Student\Interpreter has to return only valid IPPcode24 return codes (0-9)
- * - error return codes has to be raised as an exception that is a subclass of \IPP\Core\Exception\IPPException
+ * - class IPP\Student\Interpreter is required and it has to be a subclass of IPP\Core\AbstractInterpreter
+ * - class IPP\Student\Settings is optional and if it exists, it has to be a subclass of IPP\Core\Settings
+ * - method execute() of IPP\Student\Interpreter has to return only valid SOL25 return codes (0-9)
+ * - error return codes has to be raised as an exception that is a subclass of IPP\Core\Exception\IPPException
  */
 class Engine
 {
     public function run(): int
     {
         try {
-
             $settings = $this->getSettings();
             $settings->processArgs();
 
@@ -46,7 +46,6 @@ class Engine
             }
 
             return $code;
-            
         } catch (IPPException $e) {
             fwrite(STDERR, $e->getReport());
             return $e->getCode();
@@ -57,13 +56,14 @@ class Engine
     {
         $class = "\IPP\Student\Settings";
         if (!class_exists($class)) {
-            return new Settings;
+            return new Settings();
         }
+        /** @var string $class */
         if (!is_subclass_of($class, Settings::class)) {
             throw new IntegrationException("Invalid parent class in $class");
         }
         try {
-            $settings = new $class;
+            $settings = new $class();
         } catch (Throwable $e) {
             throw new IntegrationException("Invalid class constructor in $class", $e);
         }
@@ -76,6 +76,7 @@ class Engine
         if (!class_exists($class)) {
             throw new NotImplementedException("Not implemented class $class");
         }
+        /** @var string $class */
         if (!is_subclass_of($class, AbstractInterpreter::class)) {
             throw new IntegrationException("Invalid parent class in $class");
         }

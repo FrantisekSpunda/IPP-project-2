@@ -1,9 +1,10 @@
 <?php
+
 /**
  * IPP - PHP Project Core
  * @author Radim Kocman
  * @author Zbyněk Křivka
- * 
+ * ---
  * DO NOT MODIFY THIS FILE!
  */
 
@@ -14,7 +15,7 @@ use IPP\Core\Interface\OutputWriter;
 use IPP\Core\Interface\SourceReader;
 
 /**
- * Base abstract class for \IPP\Student\Interpreter that defines its constructor and required methods
+ * Base abstract class for IPP\Student\Interpreter that defines its constructor and required methods
  */
 abstract class AbstractInterpreter
 {

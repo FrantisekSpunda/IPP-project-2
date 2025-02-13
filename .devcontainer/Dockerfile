@@ -1,10 +1,15 @@
-FROM mcr.microsoft.com/devcontainers/php:8.3
+FROM php:8.4-cli
 
-RUN sed -i '/cs_CZ.UTF-8/s/^# //g' /etc/locale.gen && \
-    locale-gen
-ENV LANG cs_CZ.UTF-8
-ENV LC_ALL cs_CZ.UTF-8
+# Install xdebug
+RUN yes | pecl install xdebug \
+    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.mode = debug" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.start_with_request = yes" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.client_port = 9000" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && rm -rf /tmp/pear
 
-RUN apt-get update && apt-get install -y \
+# Install others
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends \
     dos2unix \
     && rm -rf /var/lib/apt/lists/*

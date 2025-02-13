@@ -1,9 +1,10 @@
 <?php
+
 /**
  * IPP - PHP Project Core
  * @author Radim Kocman
  * @author Zbyněk Křivka
- * 
+ * ---
  * DO NOT MODIFY THIS FILE!
  */
 
@@ -33,16 +34,18 @@ class FileInputReader implements InputReader
     public function readString(): ?string
     {
         $result = fgets($this->resource);
-        return ($result === false)? null : rtrim($result, "\n\r");
+        return ($result === false) ? null : rtrim($result, "\n\r");
     }
 
     public function readInt(): ?int
     {
         $result = $this->readString();
-        if (is_null($result)) return null;
+        if (is_null($result)) {
+            return null;
+        }
         return filter_var(
-            $result, 
-            FILTER_VALIDATE_INT, 
+            $result,
+            FILTER_VALIDATE_INT,
             FILTER_NULL_ON_FAILURE | FILTER_FLAG_ALLOW_OCTAL | FILTER_FLAG_ALLOW_HEX
         );
     }
@@ -50,7 +53,9 @@ class FileInputReader implements InputReader
     public function readBool(): ?bool
     {
         $result = $this->readString();
-        if (is_null($result)) return null;
+        if (is_null($result)) {
+            return null;
+        }
         return filter_var(
             $result,
             FILTER_VALIDATE_BOOL,
@@ -60,6 +65,6 @@ class FileInputReader implements InputReader
 
     public function readFloat(): ?float
     {
-        throw new NotImplementedException;
+        throw new NotImplementedException();
     }
 }

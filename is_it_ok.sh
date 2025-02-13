@@ -29,16 +29,16 @@
 #              Novy parametr --force (prepis existujiciho adresare).  
 #              Zruseno rozsireni NVI a FILES.
 #  2023-04-08  Aktualizace prikazu pro Python 3.10
-#  2024-02-03  Upravy dle zadani pro 2024 a podpora tbz, podpora php8.3
-#  2024-02-06  Podpora ipp-core (adresar student), podpora prikazu php8.3 i php
+#  2024-02-03  Upravy dle zadani pro 2024 a podpora tbz, podpora php8.3, podpora ipp-core (adresar student)
+#  2025-02-13  Podpora prikazu php8.4 i php
 
 LOG="is_it_ok.log"
 MAX_ARCHIVE_SIZE=1100000
 COURSE="IPP"
-PHP_INTERPRET="php8.3"
+PHP_INTERPRET="php8.4"
 PHP_INTERPRET_NOMERLIN="php"
-PYTHON_INTERPRET="python3.10"
-PYTHON_INTERPRET_NOMERLIN="python3"
+PYTHON_INTERPRET="python3.11"
+PYTHON_INTERPRET_NOMERLIN="python"
 PARSESCRIPT="parse.py"
 INTERPRETSCRIPT="interpret.php"
 INTERPRETERCLASS="Interpreter.php"

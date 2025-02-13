@@ -1,9 +1,10 @@
 <?php
+
 /**
  * IPP - PHP Project Core
  * @author Radim Kocman
  * @author Zbyněk Křivka
- * 
+ * ---
  * DO NOT MODIFY THIS FILE!
  */
 
@@ -20,7 +21,8 @@ class StreamWriter implements OutputWriter
 {
     /** @param resource $stream */
     public function __construct(protected $stream)
-    {}
+    {
+    }
 
     protected function checkResult(int|false $result): void
     {
@@ -43,12 +45,12 @@ class StreamWriter implements OutputWriter
 
     public function writeBool(bool $value): void
     {
-        $result = fwrite($this->stream, $value? "true" : "false");
+        $result = fwrite($this->stream, $value ? "true" : "false");
         $this->checkResult($result);
     }
 
     public function writeFloat(float $value): void
     {
-        throw new NotImplementedException;
+        throw new NotImplementedException();
     }
 }

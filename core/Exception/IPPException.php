@@ -1,9 +1,10 @@
 <?php
+
 /**
  * IPP - PHP Project Core
  * @author Radim Kocman
  * @author Zbyněk Křivka
- * 
+ * ---
  * DO NOT MODIFY THIS FILE!
  */
 
@@ -13,7 +14,7 @@ use Exception;
 use Throwable;
 
 /**
- * Base for IPP exceptions that are handled in \IPP\Core\Engine
+ * Base for IPP exceptions that are handled in IPP\Core\Engine
  */
 abstract class IPPException extends Exception
 {
@@ -31,7 +32,9 @@ abstract class IPPException extends Exception
         $report = "";
         $curr = $this;
         do {
-            if ($curr !== $this) $report .= "\nNext ";
+            if ($curr !== $this) {
+                $report .= "\nNext ";
+            }
             $report .= "Exception: {$curr->getMessage()}\n";
             $report .= "Thrown in: {$curr->getFile()}:{$curr->getLine()}\n";
             $report .= "Stack trace:\n{$curr->getTraceAsString()}\n";

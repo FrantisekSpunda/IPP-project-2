@@ -1,9 +1,10 @@
 <?php
+
 /**
  * IPP - PHP Project Core
  * @author Radim Kocman
  * @author Zbyněk Křivka
- * 
+ * ---
  * DO NOT MODIFY THIS FILE!
  */
 
@@ -32,9 +33,9 @@ class FileSourceReader implements SourceReader
 
     public function getDOMDocument(): DOMDocument
     {
-        $document = new DOMDocument;
+        $document = new DOMDocument();
         if (!$document->loadXML($this->content, LIBXML_PARSEHUGE)) {
-            throw new XMLException;
+            throw new XMLException();
         }
         return $document;
     }
