@@ -87,24 +87,28 @@ class Settings
             . "  : input file error\n"
             . ReturnCode::OUTPUT_FILE_ERROR
             . "  : output file error\n"
+            . ReturnCode::PARSE_LEXICAL_ERROR
+            . "  : lexical error\n"
+            . ReturnCode::PARSE_SYNTAX_ERROR
+            . "  : syntax error\n"
+            . ReturnCode::PARSE_MAIN_ERROR
+            . "  : missing Main/run error\n"
+            . ReturnCode::PARSE_UNDEF_ERROR
+            . "  : undefined symbol error\n"
+            . ReturnCode::PARSE_ARITY_ERROR
+            . "  : arity error\n"
+            . ReturnCode::PARSE_COLLISION_ERROR
+            . "  : collision error\n"
             . ReturnCode::INVALID_XML_ERROR
             . "  : invalid source XML format\n"
-            . ReturnCode::INVALID_SOURCE_STRUCTURE
+            . ReturnCode::INVALID_SOURCE_STRUCTURE_ERROR
             . "  : invalid source structure\n"
-            . ReturnCode::SEMANTIC_ERROR
-            . "  : semantic error\n"
-            . ReturnCode::OPERAND_TYPE_ERROR
-            . "  : runtime error - bad operand types\n"
-            . ReturnCode::VARIABLE_ACCESS_ERROR
-            . "  : runtime error - non-existent variable\n"
-            . ReturnCode::FRAME_ACCESS_ERROR
-            . "  : runtime error - non-existent frame\n"
-            . ReturnCode::VALUE_ERROR
-            . "  : runtime error - missing value\n"
-            . ReturnCode::OPERAND_VALUE_ERROR
-            . "  : runtime error - bad operand value\n"
-            . ReturnCode::STRING_OPERATION_ERROR
-            . "  : runtime error - bad string operation\n"
+            . ReturnCode::INTERPRET_DNU_ERROR
+            . "  : runtime error - do-not-understand error\n"
+            . ReturnCode::INTERPRET_TYPE_ERROR
+            . "  : runtime error - type error\n"
+            . ReturnCode::INTERPRET_VALUE_ERROR
+            . "  : runtime error - value (div by zero) error\n"
             . ReturnCode::INTEGRATION_ERROR
             . "  : integration error\n"
             . ReturnCode::INTERNAL_ERROR
