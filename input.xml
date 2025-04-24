@@ -6,13 +6,52 @@
         <assign order="1">
           <var name="x" />
           <expr>
-            <literal class="String" value="hola" />
+            <send selector="fo:fo:">
+              <arg order="1">
+                <expr>
+                  <literal class="Integer" value="9" />
+                </expr>
+              </arg>
+              <arg order="2">
+                <expr>
+                  <literal class="Integer" value="3" />
+                </expr>
+              </arg>
+              <expr>
+                <var name="self" />
+              </expr>
+            </send>
           </expr>
         </assign>
         <assign order="2">
           <var name="_" />
           <expr>
             <send selector="print">
+              <expr>
+                <send selector="asString">
+                  <expr>
+                    <var name="x" />
+                  </expr>
+                </send>
+              </expr>
+            </send>
+          </expr>
+        </assign>
+      </block>
+    </method>
+    <method selector="fo:fo:">
+      <block arity="2">
+        <parameter order="2" name="y" />
+        <parameter order="1" name="x" />
+        <assign order="1">
+          <var name="_" />
+          <expr>
+            <send selector="divBy:">
+              <arg order="1">
+                <expr>
+                  <var name="y" />
+                </expr>
+              </arg>
               <expr>
                 <var name="x" />
               </expr>
