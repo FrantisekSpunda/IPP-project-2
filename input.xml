@@ -1,64 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <program language="SOL25">
-  <class name="Main" parent="Object">
-    <method selector="run">
-      <block arity="0">
-        <assign order="1">
-          <var name="x" />
-          <expr>
-            <send selector="fo:fo:">
-              <arg order="1">
-                <expr>
-                  <literal class="Integer" value="9" />
-                </expr>
-              </arg>
-              <arg order="2">
-                <expr>
-                  <literal class="Integer" value="3" />
-                </expr>
-              </arg>
-              <expr>
-                <var name="self" />
-              </expr>
-            </send>
-          </expr>
-        </assign>
-        <assign order="2">
-          <var name="_" />
-          <expr>
-            <send selector="print">
-              <expr>
-                <send selector="asString">
-                  <expr>
-                    <var name="x" />
-                  </expr>
-                </send>
-              </expr>
-            </send>
-          </expr>
-        </assign>
-      </block>
-    </method>
-    <method selector="fo:fo:">
-      <block arity="2">
-        <parameter order="2" name="y" />
-        <parameter order="1" name="x" />
-        <assign order="1">
-          <var name="_" />
-          <expr>
-            <send selector="divBy:">
-              <arg order="1">
-                <expr>
-                  <var name="y" />
-                </expr>
-              </arg>
-              <expr>
-                <var name="x" />
-              </expr>
-            </send>
-          </expr>
-        </assign>
-      </block>
-    </method>
-  </class>
+    <class name="Factorial" parent="Integer">
+        <method selector="factorial">
+            <block arity="0">
+                <assign order="1">
+                    <var name="r"/>
+                    <expr>
+                        <send selector="ifTrue:ifFalse:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="r"/>
+                                            <expr>
+                                                <send selector="from:">
+                                                    <arg order="1">
+                                                        <expr>
+                                                            <literal class="Integer" value="1"/>
+                                                        </expr>
+                                                    </arg>
+                                                    <expr>
+                                                        <literal class="class" value="Factorial"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="r"/>
+                                            <expr>
+                                                <send selector="multiplyBy:">
+                                                    <arg order="1">
+                                                        <expr>
+                                                            <send selector="factorial">
+                                                                <expr>
+                                                                    <send selector="from:">
+                                                                        <arg order="1">
+                                                                            <expr>
+                                                                                <send selector="plus:">
+                                                                                    <arg order="1">
+                                                                                        <expr>
+                                                                                            <literal class="Integer" value="-1"/>
+                                                                                        </expr>
+                                                                                    </arg>
+                                                                                    <expr>
+                                                                                        <var name="self"/>
+                                                                                    </expr>
+                                                                                </send>
+                                                                            </expr>
+                                                                        </arg>
+                                                                        <expr>
+                                                                            <literal class="class" value="Factorial"/>
+                                                                        </expr>
+                                                                    </send>
+                                                                </expr>
+                                                            </send>
+                                                        </expr>
+                                                    </arg>
+                                                    <expr>
+                                                        <var name="self"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <send selector="equalTo:">
+                                    <arg order="1">
+                                        <expr>
+                                            <literal class="Integer" value="0"/>
+                                        </expr>
+                                    </arg>
+                                    <expr>
+                                        <var name="self"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <send selector="asInteger">
+                                        <expr>
+                                            <send selector="read">
+                                                <expr>
+                                                    <literal class="class" value="String"/>
+                                                </expr>
+                                            </send>
+                                        </expr>
+                                    </send>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="Factorial"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <send selector="factorial">
+                                            <expr>
+                                                <var name="x"/>
+                                            </expr>
+                                        </send>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
 </program>

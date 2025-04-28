@@ -30,21 +30,9 @@ class ClassTable {
     foreach ($methods as $method) {
       $methodName = $method->getAttribute('selector');
 
-      $parameters = $method->getElementsByTagName('parameter');
-
-      $params = [];
-      foreach ($parameters as $parameter) {
-        $paramName = $parameter->getAttribute('name');
-        if (empty($paramName)) {
-          throw new \Exception("Parameter name cannot be empty");
-        }
-        $params[] = $paramName;
-      }
-
       $this->classes[$name]['methods'][$methodName] = [
         'element' => $method,
-        'name' => $methodName,
-        'parameters' => $params,
+        'name' => $methodName
       ];
     }
   }
@@ -58,6 +46,7 @@ class ClassTable {
       throw new \Exception("Method $methodName does not exist in class $className");
     }
 
-    return $this->classes[$className]['methods'][$methodName]['element']->getElementsByTagName('block')->item(0);
+
+    return $this->classes[$className]['methods'][$methodName]['element']->getElementsByTagName('block')->item(0) ?? $this->classes[$className]['methods'][$methodName]['value'];
   }
 }

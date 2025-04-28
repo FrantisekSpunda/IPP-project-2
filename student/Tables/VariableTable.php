@@ -4,7 +4,7 @@ namespace IPP\Student\Tables;
 
 class VariableTable {
   public array $variables = [];
-  public $lastAssing = null;
+  public $lastAssign = null;
 
   public function setVariable($name, $value): void {
     // Initialize the variable entry
@@ -13,6 +13,6 @@ class VariableTable {
       'value' => $value,
     ];
 
-    $this->lastAssing = $value;
+    $this->lastAssign = $value;
   }
 }
