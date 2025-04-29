@@ -9,10 +9,7 @@ class BlockObject extends LiteralObject {
   protected Interpreter $interpreter;
 
   public function __construct(DOMElement $value, Interpreter $interpreter) {
-    parent::__construct();
-
-    $this->value = $value;
-    $this->interpreter = $interpreter;
+    parent::__construct($value, $interpreter);
 
     $this->methods['whileTrue:'] = function (array $args) {
       if (count($args) !== 1) {
@@ -23,8 +20,9 @@ class BlockObject extends LiteralObject {
         throw new \InvalidArgumentException("Argument must be an instance of BlockObject");
       }
 
-      while ($this->interpreter->executeBlock($this->value) instanceof TrueObject) {
-        $this->interpreter->executeBlock(($args[0]->getValue()));
+      while ($this->interpreter->executeSend('value', $this, []) instanceof TrueObject) {
+        // $this->interpreter->executeBlock(($args[0]->getValue()));
+        $this->interpreter->executeSend('value', $args[0], []);
       }
 
       return $this->interpreter->variableTable->lastAssign;

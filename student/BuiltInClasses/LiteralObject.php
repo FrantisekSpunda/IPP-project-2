@@ -5,16 +5,33 @@ namespace IPP\Student\BuiltInClasses;
 use IPP\Student\Interpreter;
 
 
-abstract class LiteralObject {
+class LiteralObject {
   protected mixed $value;
+  public string $className;
+  public string $parentClassName;
   protected Interpreter $interpreter;
 
-  abstract public function getValue(): mixed;
 
-  public array $methods;
+  /** 
+   * @var array<string, callable> 
+   */
+  public array $methods = [];
 
-  public function __construct() {
+  public function __construct(mixed $value, Interpreter $interpreter) {
+    $this->className = $this::class;
+    $this->parentClassName = '';
+    if ($value instanceof LiteralObject) $value = $value->getValue();
+    $this->value = $value;
+    $this->interpreter = $interpreter;
+
     $this->methods = [
+      'new' => function (array $args) {
+        if (count($args) !== 0) {
+          throw new \InvalidArgumentException("identicalTo: method requires no argument");
+        }
+
+        return new self(0, $this->interpreter);
+      },
       'from:' => function (array $args) {
         if (count($args) !== 1) {
           throw new \InvalidArgumentException("identicalTo: method requires exactly one argument");
@@ -31,7 +48,18 @@ abstract class LiteralObject {
           throw new \InvalidArgumentException("Argument must be an instance of LiteralObject");
         }
 
-        return $this->value === $args[0]->getValue() ? new TrueObject(true) : new FalseObject(false);
+        return $this === $args[0] ? new TrueObject(true, $this->interpreter) : new FalseObject(false, $this->interpreter);
+      },
+      'equalTo:' => function (array $args) {
+        if (count($args) !== 1) {
+          throw new \InvalidArgumentException("identicalTo: method requires exactly one argument");
+        }
+
+        if (!($args[0] instanceof LiteralObject)) {
+          throw new \InvalidArgumentException("Argument must be an instance of LiteralObject");
+        }
+
+        return $this->value == $args[0]->getValue() ? new TrueObject(true, $this->interpreter) : new FalseObject(false, $this->interpreter);
       },
       'asString' => function (array $args) {
         if (count($args) !== 0) {
@@ -45,29 +73,37 @@ abstract class LiteralObject {
           throw new \InvalidArgumentException("isNumber: method requires no arguments");
         }
 
-        return ($args[0] instanceof IntegerObject) ? new TrueObject(true) : new FalseObject(false);
+        return ($this instanceof IntegerObject) ? new TrueObject(true, $this->interpreter) : new FalseObject(false, $this->interpreter);
       },
       'isString' => function (array $args) {
         if (count($args) !== 0) {
           throw new \InvalidArgumentException("isString: method requires no arguments");
         }
 
-        return ($args[0] instanceof StringObject) ? new TrueObject(true) : new FalseObject(false);
+        return ($this instanceof StringObject || ($this instanceof CustomObject && $this->parentClassName == 'String')) ? new TrueObject(true, $this->interpreter) : new FalseObject(false, $this->interpreter);
       },
       'isBlock' => function (array $args) {
         if (count($args) !== 0) {
           throw new \InvalidArgumentException("isBlock: method requires no arguments");
         }
 
-        return ($args[0] instanceof BlockObject) ? new TrueObject(true) : new FalseObject(false);
+        return ($this instanceof BlockObject) ? new TrueObject(true, $this->interpreter) : new FalseObject(false, $this->interpreter);
       },
       'isNil' => function (array $args) {
         if (count($args) !== 0) {
           throw new \InvalidArgumentException("isNil: method requires no arguments");
         }
 
-        return ($args[0] instanceof NilObject) ? new TrueObject(true) : new FalseObject(false);
+        return ($this instanceof NilObject) ? new TrueObject(true, $this->interpreter) : new FalseObject(false, $this->interpreter);
       },
     ];
+  }
+
+  public function getValue(): mixed {
+    return $this->value;
+  }
+
+  public function __toString() {
+    return $this->value;
   }
 }

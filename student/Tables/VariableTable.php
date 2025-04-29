@@ -2,11 +2,16 @@
 
 namespace IPP\Student\Tables;
 
-class VariableTable {
-  public array $variables = [];
-  public $lastAssign = null;
+use IPP\Student\BuiltInClasses\LiteralObject;
 
-  public function setVariable($name, $value): void {
+class VariableTable {
+  /**
+   * @var array<string, object>
+   */
+  public array $variables = [];
+  public ?LiteralObject $lastAssign = null;
+
+  public function setVariable(string $name, LiteralObject $value): void {
     // Initialize the variable entry
     $this->variables[$name] = [
       'name' => $name,

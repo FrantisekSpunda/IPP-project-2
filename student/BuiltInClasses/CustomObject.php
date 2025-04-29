@@ -6,21 +6,27 @@ use IPP\Student\BuiltInClasses\LiteralObject;
 use IPP\Student\Interpreter;
 
 class CustomObject extends LiteralObject {
-  public string $className;
 
-  public function __construct(mixed $value, Interpreter $interpreter, string $className) {
-    parent::__construct();
+  public function __construct(mixed $value, Interpreter $interpreter, string $className, string $parentClassName) {
+    parent::__construct($value, $interpreter);
 
     $this->className = $className;
-    $this->value = $value;
-    $this->interpreter = $interpreter;
+    $this->parentClassName = $parentClassName;
+
+    $this->methods['new'] = function (array $args) {
+      if (count($args) !== 0) {
+        throw new \InvalidArgumentException("identicalTo: method requires no argument");
+      }
+
+      return new self($this->value, $this->interpreter, $this->className, $this->parentClassName);
+    };
 
     $this->methods['from:'] = function (array $args) {
       if (count($args) !== 1) {
         throw new \InvalidArgumentException("identicalTo: method requires exactly one argument");
       }
 
-      return new self($args[0], $this->interpreter, $this->className);
+      return new self($args[0], $this->interpreter, $this->className, $this->parentClassName);
     };
   }
 
@@ -32,11 +38,11 @@ class CustomObject extends LiteralObject {
     return $this->className;
   }
 
-  public function getValue(): int {
+  public function getValue(): mixed {
     return $this->value;
   }
 
-  public function setValue(int $value): void {
+  public function setValue(mixed $value): void {
     $this->value = $value;
   }
 }
